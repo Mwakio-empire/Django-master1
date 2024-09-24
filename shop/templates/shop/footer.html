@@ -1,0 +1,42 @@
+<!-- templates/shop/footer.html -->
+ {% load static %}
+
+<footer>
+    
+    <div class="footer-content">
+        <div class="footer-section about">
+            <h2>About Us</h2>
+            <p>We are a leading jewellery store committed to providing high-quality products and exceptional customer service.</p>
+        </div>
+        
+        <div class="footer-section links">
+            <h2>Navigation</h2>
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'product_list' %}">Products</a></li>
+                <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+                <li><a href="{% url 'terms_of_service' %}">Terms of Service</a></li>
+                <li><a href="{% url 'faqs' %}">FAQs</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section social">
+            <h2>Follow Us</h2>
+            <a href="https://facebook.com" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://instagram.com" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="https://twitter.com" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="https://twitter.com" target="_blank" class="social-icon"><i class="fab fa-tiktok"></i></a>
+            <a href="https://linkedin.com" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; {{ current_year }} Jewel Plug. All rights reserved.</p>
+    </div>
+</footer>
+<script src="{% static 'staticfiles/admin/js/main.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/form_handling.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/ui_enhancements.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/dropdowns.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/price_range.js' %}"></script>

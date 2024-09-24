@@ -1,0 +1,115 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'staticfiles/admin/css/product_details.css' %}">
+<div class="container">
+    <!-- Product Details Section -->
+    <div class="product-details">
+        <!-- Product Images -->
+        <div class="product-images">
+            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="main-image">
+            <div class="image-gallery">
+                {% for image in product.images.all %}
+                    <img src="{{ image.image.url }}" alt="{{ product.name }}" class="gallery-image">
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Product Information -->
+        <div class="product-info">
+            <h1>{{ product.name }}</h1>
+            <p class="description">{{ product.description }}</p>
+            <p class="price">Kshs{{ product.price }}</p>
+            <p class="availability">
+                {% if product.available %}
+                    <span class="text-success">In Stock</span>
+                {% else %}
+                    <span class="text-danger">Out of Stock</span>
+                {% endif %}
+            </p>
+            <p class="category">Category: {{ product.category.name }}</p>
+            <p class="sku">SKU: {{ product.sku }}</p>
+            <p class="brand">Brand: {{ product.brand }}</p>
+
+            <!-- Ratings and Comments -->
+            <div class="ratings-comments">
+                <h3>Ratings & Reviews</h3>
+                <p>Average Rating: {{ product.average_rating }} / 5</p>
+                <div id="comments-container">
+                    {% include 'shop/comments_list.html' %}
+                </div>
+
+                <!-- Comment Form -->
+                {% if user.is_authenticated %}
+                    <form method="POST" action="{% url 'add_comment' product.id %}" id="comment-form">
+                        {% csrf_token %}
+                        <h3>Add a Comment</h3>
+                        <div class="form-group">
+                            <label for="rating">Rating:</label>
+                            <select name="rating" id="rating" required>
+                                <option value="1">1 Star</option>
+                                <option value="2">2 Stars</option>
+                                <option value="3">3 Stars</option>
+                                <option value="4">4 Stars</option>
+                                <option value="5">5 Stars</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="text">Comment:</label>
+                            <textarea name="text" id="text" rows="4" required></textarea>
+                        </div>
+                        <button type="submit">Submit Comment</button>
+                    </form>
+                {% else %}
+                    <p>You must be logged in to add a comment.</p>
+                {% endif %}
+            </div>
+
+            <!-- Add to Cart -->
+            <div class="add-to-cart">
+                {% if user.is_authenticated %}
+                    <h3>Add to Cart</h3>
+                    <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="quantity">Quantity:</label>
+                            <input type="number" name="quantity" id="quantity" min="1" value="1" required>
+                        </div>
+                        <button type="submit">Add to Cart</button>
+                    </form>
+                    <!-- Proceed to Checkout Button -->
+                    <div class="checkout-button-container">
+                        <a href="{% url 'purchase' %}" class="checkout-button">Proceed to Checkout</a>
+                    </div>
+                {% else %}
+                    <p>You must be logged in to add items to the cart.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    <div class="related-products">
+        <h3>You Might Also Like</h3>
+        <div class="product-cards">
+            {% for related_product in related_products %}
+                <div class="product-card">
+                    <img src="{{ related_product.main_image.url }}" alt="{{ related_product.name }}">
+                    <h4>{{ related_product.name }}</h4>
+                    <p>Kshs{{ related_product.price }}</p>
+                    <a href="{% url 'product_detail' related_product.id %}">View Details</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'staticfiles/admin/js/product_detail.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/main.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/form_handling.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/ui_enhancements.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/dropdowns.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/price_range.js' %}"></script>
+
+{% endblock %}

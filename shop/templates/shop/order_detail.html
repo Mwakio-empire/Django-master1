@@ -1,0 +1,26 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="order-detail-container">
+    {% if error %}
+        <p class="error-message">{{ error }}</p>
+    {% else %}
+        <h2>Order Details</h2>
+        <div class="order-info">
+            <p><strong>Order ID:</strong> {{ order.id }}</p>
+            <p><strong>Date:</strong> {{ order.date }}</p>
+            <p><strong>Status:</strong> {{ order.status }}</p>
+            <p><strong>Total:</strong> {{ order.total }}</p>
+        </div>
+        <h3>Items:</h3>
+        <ul>
+            {% for item in order.items.all %}
+            <li>{{ item.product.name }} - {{ item.quantity }} x {{ item.price }}</li>
+            {% empty %}
+            <li>No items in this order.</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}

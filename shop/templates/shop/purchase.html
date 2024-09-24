@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'staticfiles/admin/css/purchase.css' %}">
+<div class="purchase-container">
+    <h1>Checkout</h1>
+    
+    <!-- M-Pesa Payment Button -->
+    <div class="payment-method">
+        <button class="mpesa-button">Pay with M-Pesa</button>
+    </div>
+
+    <!-- Cash on Delivery Option -->
+    <div class="cash-on-delivery">
+        <label>
+            <input type="checkbox" id="cash-on-delivery" name="payment_method" value="cash_on_delivery">
+            Cash on Delivery
+        </label>
+    </div>
+
+    <!-- Delivery Contact Information -->
+    <div class="delivery-info">
+        <h2>Delivery Information</h2>
+        <form action="{% url 'purchase' %}" method="post">
+            {% csrf_token %}
+            <label for="contact_name">Name:</label>
+            <input type="text" id="contact_name" name="contact_name" required>
+
+            <label for="contact_phone">Phone Number:</label>
+            <input type="text" id="contact_phone" name="contact_phone" required>
+
+            <label for="contact_address">Address:</label>
+            <textarea id="contact_address" name="contact_address" required></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- Delivery Status Updates -->
+    <div class="delivery-status">
+        <h2>Track Your Order</h2>
+        <p>Your order status will be updated here.</p>
+    </div>
+
+    <!-- Rating Option -->
+    <div class="rating">
+        <h2>Rate Your Experience</h2>
+        <form action="{% url 'rate_experience' %}" method="post">
+            {% csrf_token %}
+            <label for="product_rating">Product Rating:</label>
+            <select id="product_rating" name="product_rating">
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
+
+            <label for="service_rating">Delivery Service Rating:</label>
+            <select id="service_rating" name="service_rating">
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
+
+            <button type="submit">Submit Rating</button>
+        </form>
+    </div>
+
+    <!-- Success Message -->
+    <div class="success-message">
+        {% if success %}
+            <p>Thank you for shopping with Jewel Plug! Your order is being processed now 😊</p>
+        {% endif %}
+    </div>
+</div>
+<script src="{% static 'staticfiles/admin/js/checkout.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'staticfiles/admin/css/cart.css' %}">
+
+<div class="container cart-container">
+    <h1>Shopping Cart</h1>
+
+    {% if cart_items %}
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td>
+                            <div class="product-info">
+                                <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" class="cart-product-image">
+                                <span>{{ item.product.name }}</span>
+                            </div>
+                        </td>
+                        <td>Kshs{{ item.product.price }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'update_cart_item' item.id %}">
+                                {% csrf_token %}
+                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                                <button type="submit">Update</button>
+                            </form>
+                        </td>
+                        <td>Kshs{{ item.get_total }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'remove_from_cart' item.id %}">
+                                {% csrf_token %}
+                                <button type="submit">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="cart-summary">
+            <p>Total Items: {{ total_items }}</p>
+            <p>Total Price: Kshs{{ total_price }}</p>
+            <a href="{% url 'checkout' %}" class="checkout-button">Proceed to Checkout</a>
+        </div>
+    {% else %}
+        <p>Your cart is empty. <a href="{% url 'product_list' %}">Continue shopping</a>.</p>
+    {% endif %}
+</div>
+
+<script src="{% static 'staticfiles/admin/js/cart.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/product_detail.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/main.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/form_handling.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/ui_enhancements.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/dropdowns.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/price_range.js' %}"></script>
+
+{% endblock %}

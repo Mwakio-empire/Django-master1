@@ -1,0 +1,89 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Home - Jewel Plug{% endblock %}
+
+{% load static %}
+
+{% block content %}
+    <header class="hero-section">
+        <link rel="stylesheet" type="text/css" href="{% static 'staticfiles/admin/css/styles1.css' %}">          
+        <div class="hero-content">
+            <h1>Discover Your Perfect Sparkle</h1>
+            <p>Explore our exquisite collection of handcrafted jewelry.</p>
+            <a href="{% url 'product_list' %}" class="btn-primary">Shop Now</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="featured-products">
+            <h2>Featured Products</h2>
+            <div class="product-grid">
+                {% for product in featured_products %}
+                    <article class="product-card">
+                        <div class="product-image-wrapper">
+                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-image">
+                        </div>
+                        <div class="product-info">
+                            <h3>{{ product.name }}</h3>
+                            <p class="price">Kshs {{ product.price }}</p>
+                            <div class="product-buttons">
+                                <a href="{% url 'product_detail' product.id %}" class="btn-secondary">View Details</a>
+                                <a href="{% url 'add_to_cart' product.id %}" class="btn-primary">Add to Cart</a>
+                            </div>
+                        </div>
+                    </article>
+                {% empty %}
+                    <p>No featured products available.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="categories">
+            <h2>Shop by Category</h2>
+            <div id="category-dropdown" class="dropdown">
+                <button class="dropdown-toggle">Select Category</button>
+                <div class="dropdown-menu">
+                    {% for category in categories %}
+                        <a href="{% url 'product_list' %}?category={{ category.id }}">{{ category.name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section class="about-us">
+            <h2>About Us</h2>
+            <p>At Jewellery Shop, we are dedicated to bringing you the finest jewelry. Our pieces are crafted with love and precision, ensuring every item is unique and special. Discover more about our story and what sets us apart.</p>
+            <a href="{% url 'about' %}" class="btn-secondary">Learn More</a>
+        </section>
+
+        <section class="testimonials">
+            <h2>What Our Customers Say</h2>
+            <div class="testimonial-slider">
+                {% for testimonial in testimonials %}
+                    <div class="testimonial">
+                        <p>"{{ testimonial.text }}"</p>
+                        <p><strong>- {{ testimonial.customer_name }}</strong></p>
+                    </div>
+                {% empty %}
+                    <p>No testimonials available.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="newsletter">
+            <h2>Stay Updated</h2>
+            <p>Sign up for our newsletter and be the first to know about our latest collections and exclusive offers.</p>
+            <form action="{% url 'subscribe_newsletter' %}" method="post" class="newsletter-form">
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="Enter your email" required>
+                <button type="submit" class="btn-primary">Subscribe</button>
+            </form>
+        </section>
+    </main>
+
+    <script src="{% static 'staticfiles/admin/js/main.js' %}"></script>
+    <script src="{% static 'staticfiles/admin/js/form_handling.js' %}"></script>
+    <script src="{% static 'staticfiles/admin/js/ui_enhancements.js' %}"></script>
+    <script src="{% static 'staticfiles/admin/js/dropdowns.js' %}"></script>
+    <script src="{% static 'staticfiles/admin/js/price_range.js' %}"></script>
+{% endblock %}

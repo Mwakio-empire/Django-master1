@@ -1,0 +1,39 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'staticfiles/admin/css/update_profile.css' %}">
+<div class="container">
+    <h1>Update Profile</h1>
+    
+    <!-- Display any form errors or messages -->
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ field.label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+
+    <!-- Password change form -->
+    <h2>Change Password</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ password_form.as_p }}
+        <button type="submit" name="change_password" class="btn btn-primary">Change Password</button>
+    </form>
+</div>
+{% endblock %}

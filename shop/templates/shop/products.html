@@ -1,0 +1,92 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Main Container -->
+<link rel="stylesheet" href="{% static 'staticfiles/admin/css/products.css' %}">
+<div class="main-container">
+    <!-- Search & Filters Section -->
+    <aside class="search-filters-container">
+        <!-- Search Section -->
+        <section class="search-section">
+            <form class="search-form" action="{% url 'product_list' %}" method="GET">
+                <input type="text" name="query" class="search-input" placeholder="Search for jewelry..." value="{{ request.GET.query }}">
+                <select name="category" class="search-select">
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}" {% if request.GET.category == category.id %}selected{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </section>
+
+        <!-- Filters Section -->
+        <section class="filters-section">
+            <h3>Filters</h3>
+            <form class="filters-form">
+                <label for="price-range">Price Range (Kshs)</label>
+                <div class="price-range-container">
+                    <input type="range" id="price-range-min" name="price-min" min="0" max="10000" value="0">
+                    <input type="range" id="price-range-max" name="price-max" min="0" max="10000" value="10000">
+                    <div class="price-values">
+                        <span id="price-min-value">Kshs 0</span> - <span id="price-max-value">Kshs 10000</span>
+                    </div>
+                </div>
+                
+                <label for="material">Material</label>
+                <select id="material" name="material">
+                    <option value="">All Materials</option>
+                    <!-- Add material options here dynamically if needed -->
+                </select>
+                
+                <label for="rating">Rating</label>
+                <select id="rating" name="rating">
+                    <option value="">All Ratings</option>
+                    <option value="5">5 stars</option>
+                    <option value="4">4 stars</option>
+                    <option value="3">3 stars</option>
+                    <option value="2">2 stars</option>
+                    <option value="1">1 star</option>
+                </select>
+            </form>
+        </section>
+    </aside>
+
+    <!-- Products Grid -->
+    <main class="products-main">
+        <h1>Jewelry Collection</h1>
+        <div id="products-grid" class="products-grid">
+            {% for product in products %}
+                <a href="{% url 'product_detail' product.id %}" class="product-card">
+                    <div class="product-image-link">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                        {% else %}
+                            <img src="{% static 'images/default_image.jpg' %}" alt="Default Image" class="product-image">
+                        {% endif %}
+                    </div>
+                    <div class="product-details">
+                        <h2 class="product-title">{{ product.name }}</h2>
+                        <p class="product-price">Kshs {{ product.price }}</p>
+                        <p class="product-rating">{{ product.average_rating|default:"N/A" }} stars</p>
+                    </div>
+                </a>
+            {% empty %}
+                <p>No products found.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading" style="display: none;">JP</div>
+    </main>
+</div>
+
+<!-- JavaScript for Dual Range Slider -->
+<script src="{% static 'staticfiles/admin/js/main.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/form_handling.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/ui_enhancements.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/dropdowns.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/price_range.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/infinity_scroll.js' %}"></script>
+{% endblock %}

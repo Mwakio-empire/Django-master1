@@ -1,0 +1,66 @@
+<!-- templates/wishlist.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Wishlist</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'staticfiles/admin/css/wishlist.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Your Wishlist</h1>
+            <a href="{% url 'products' %}" class="button">Continue Shopping</a>
+        </header>
+
+        {% if wishlist %}
+            <table class="wishlist-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in wishlist.items %}
+                        <tr>
+                            <td>
+                                <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" class="wishlist-item-image">
+                                <p>{{ item.product.name }}</p>
+                            </td>
+                            <td>${{ item.product.price }}</td>
+                            <td>
+                                <form method="post" class="actions-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                                    <button type="submit" name="remove" class="button remove-button">Remove</button>
+                                    <a href="{% url 'product_detail' item.product.id %}" class="button">View Details</a>
+                                </form>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="3">Your wishlist is empty.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="wishlist-summary">
+                <p><strong>Total Items:</strong> {{ wishlist.total_items }}</p>
+                <a href="{% url 'purchase' %}" class="button checkout-button">Proceed to Checkout</a>
+            </div>
+        {% else %}
+            <p>Your wishlist is empty. <a href="{% url 'products' %}">Continue Shopping</a></p>
+        {% endif %}
+    </div>
+<script src="{% static 'staticfiles/admin/js/main.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/form_handling.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/ui_enhancements.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/dropdowns.js' %}"></script>
+<script src="{% static 'staticfiles/admin/js/price_range.js' %}"></script>
+</body>
+</html>

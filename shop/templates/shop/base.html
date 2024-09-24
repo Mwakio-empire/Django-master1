@@ -1,0 +1,71 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Jewel Plug{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'staticfiles/admin/css/update_profile.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'staticfiles/admin/css/base1.css' %}">
+    <!-- Add Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <header class="header {% block header_class %}{% endblock %}">
+        <div class="logo">
+            <img src="{% static 'shop/logo.png' %}" alt="Company Logo">
+        </div>
+        <div class="lavish-title">
+            <h1>Jewel Plug</h1>
+        </div>
+        <nav class="nav-menu">
+            <button class="category-button" onclick="toggleDropdown()">Categories</button>
+            <div id="category-dropdown" class="dropdown">
+                {% for category in categories %}
+                    <a href="{% url 'product_list' %}?category={{ category.id }}">{{ category.name }}</a>
+                {% endfor %}
+            </div>
+            <a href="{% url 'view_cart' %}" class="cart-icon">
+                <i class="fas fa-shopping-cart"></i> Cart ({{ cart_count }})
+            </a>
+            <!-- Accounts Button -->
+            <div class="account-menu">
+                <button class="account-button" onclick="toggleAccountDropdown()">Account</button>
+                <div id="account-dropdown" class="dropdown">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}">Logout</a>
+                        <a href="{% url 'profile' %}">Profile</a>
+                    {% else %}
+                        <a href="{% url 'login' %}">Login</a>
+                        <a href="{% url 'signup' %}">Sign Up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="{% block main_class %}{% endblock %}">
+        {% block content %}
+        <!-- Content of each page will be inserted here -->
+        {% endblock %}
+    </main>
+
+    {% include 'shop/footer.html' %}
+    <!-- Include JavaScript files -->
+    <script src="{% static 'staticfiles/admin/js/main.js' %}"></script>
+    <script src="{% static 'staticfiles/admin/js/form_handling.js' %}"></script>
+    <script src="{% static 'staticfiles/admin/js/ui_enhancements.js' %}"></script>
+    <script src="{% static 'staticfiles/admin/js/dropdowns.js' %}"></script>
+    <script src="{% static 'staticfiles/admin/js/price_range.js' %}"></script>
+    <script>
+        function toggleAccountDropdown() {
+            document.getElementById('account-dropdown').classList.toggle('show');
+        }
+
+        function toggleDropdown() {
+            document.getElementById('category-dropdown').classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

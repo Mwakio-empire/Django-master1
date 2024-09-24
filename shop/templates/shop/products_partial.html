@@ -1,0 +1,18 @@
+{% for product in products %}
+    <a href="{% url 'product_detail' product.id %}" class="product-card">
+        <div class="product-image-link">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+            {% else %}
+                <img src="{% static 'images/default_image.jpg' %}" alt="Default Image" class="product-image">
+            {% endif %}
+        </div>
+        <div class="product-details">
+            <h2 class="product-title">{{ product.name }}</h2>
+            <p class="product-price">Kshs {{ product.price }}</p>
+            <p class="product-rating">{{ product.average_rating|default:"N/A" }} stars</p>
+        </div>
+    </a>
+{% empty %}
+    <p>No products found.</p>
+{% endfor %}

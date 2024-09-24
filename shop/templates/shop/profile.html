@@ -1,0 +1,38 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'staticfiles/admin/css/profile.css' %}">
+<div class="profile-container">
+    <h2>My Profile</h2>
+    
+    <!-- Profile Update Form -->
+    <form method="post" action="{% url 'profile' %}">
+        {% csrf_token %}
+        {{ profile_form.as_p }}
+        <button type="submit" name="update_profile" class="submit-btn">Update Profile</button>
+    </form>
+
+    <!-- Password Change Form -->
+    <form method="post" action="{% url 'profile' %}">
+        {% csrf_token %}
+        {{ password_form.as_p }}
+        <button type="submit" name="change_password" class="submit-btn">Change Password</button>
+    </form>
+
+    <!-- Order History -->
+    <div class="order-history">
+        <h3>Order History</h3>
+        {% for order in orders %}
+            <div class="order">
+                <p>Order #{{ order.id }} - {{ order.date }}</p>
+                <a href="{% url 'order_detail' order.id %}">View Details</a>
+            </div>
+        {% empty %}
+            <p>No orders found.</p>
+        {% endfor %}
+    </div>
+    
+    <!-- Logout Button -->
+    <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+</div>
+{% endblock %}
