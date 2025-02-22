@@ -102,14 +102,22 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email configuration
-EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
-EMAIL_HOST = env('EMAIL_HOST', default='smtp.gmail.com')
-EMAIL_PORT = env.int('EMAIL_PORT', default=587)
-EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+
 
 SITE_URL = env('SITE_URL', default='http://localhost:8000')
+
+
+from decouple import config
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+ADMIN_EMAIL = config('ADMIN_EMAIL')
+
 
 
 # settings.py
@@ -125,7 +133,12 @@ MPESA_API_URL = 'https://sandbox.safaricom.co.ke/'  # Use sandbox URL for testin
 
 
 LOGIN_URL = 'login'  # Redirect to the login page
-LOGIN_REDIRECT_URL = 'profile'  # Redirect after successful login
+LOGIN_REDIRECT_URL = '/'  # Redirect after successful login
+# settings.py
+LOGOUT_REDIRECT_URL = '/'  # Redirects to home page or any page you specify
+# settings.py
+CART_SESSION_ID = 'cart'
+
 
 
 # Directory for log files

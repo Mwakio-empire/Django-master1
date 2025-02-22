@@ -1,0 +1,60 @@
+{% extends 'shop.base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <style>
+        body {
+            background-color: #1a1a1a; /* Dark background */
+            color: #f4e042; /* Gold text */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h2 {
+            color: #f4e042; /* Gold text */
+        }
+        p {
+            font-size: 18px;
+        }
+        a {
+            color: #f4e042; /* Gold color for the link */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #d4b800; /* Slightly darker gold for hover effect */
+        }
+        .email-container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            background-color: #333333;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #999999;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <h2>Hello {{ user.username }},</h2>
+        <p>Thank you for signing up. Please click the link below to verify your email address:</p>
+        <a href="http://localhost:8000/verify/{{ verification_code }}/">Verify your email</a>
+
+        <div class="footer">
+            <p>If you did not sign up, please ignore this email.</p>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

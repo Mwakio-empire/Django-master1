@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Jewel Plug{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'staticfiles/admin/css/update_profile.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'staticfiles/admin/css/base1.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'staticfiles/admin/css/b1.css' %}">
     <!-- Add Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -33,17 +33,57 @@
             <div class="account-menu">
                 <button class="account-button" onclick="toggleAccountDropdown()">Account</button>
                 <div id="account-dropdown" class="dropdown">
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'logout' %}">Logout</a>
-                        <a href="{% url 'profile' %}">Profile</a>
-                    {% else %}
-                        <a href="{% url 'login' %}">Login</a>
-                        <a href="{% url 'signup' %}">Sign Up</a>
-                    {% endif %}
+                    <div>
+                        {% if user.is_authenticated %}
+                            <!-- Secure Logout button using POST -->
+                            <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer; font: inherit;">
+                                    Logout
+                                </button>
+                            </form>
+                            <a href="{% url 'profile' %}">Profile</a>
+                        {% else %}
+                            <!-- Regular GET links for Login and Sign Up -->
+                            <a href="{% url 'login' %}">Login</a>
+                            <a href="{% url 'signup' %}">Sign Up</a>
+                        {% endif %}
+                    </div>
+                    
+
                 </div>
             </div>
         </nav>
     </header>
+
+    
+{% if messages %}
+<div id="logout-message" class="message">
+    {% for message in messages %}
+        <p>{{ message }}</p>
+  
+    {% endfor %}
+</div>
+
+{% endif %}
+
+{% if messages %}
+
+    <script>
+        // Show popup with success message
+        window.onload = function() {
+            const messageDiv = document.getElementById('logout-message');
+            if (messageDiv) {
+                alert(messageDiv.textContent.trim());  // Displaying the message in a popup (alert box)
+                // Redirect to the previous page after 3 seconds
+                setTimeout(function() {
+                    window.location.href = document.referrer || '/';  // Redirect back or to home
+                }, 3000);  // 3-second delay
+            }
+        };
+    </script>
+{% endif %}
+
 
     <main class="{% block main_class %}{% endblock %}">
         {% block content %}
@@ -58,14 +98,17 @@
     <script src="{% static 'staticfiles/admin/js/ui_enhancements.js' %}"></script>
     <script src="{% static 'staticfiles/admin/js/dropdowns.js' %}"></script>
     <script src="{% static 'staticfiles/admin/js/price_range.js' %}"></script>
-    <script>
+    <script src="{% static 'staticfiles/admin/js/logout.js' %}"></script>
+<script>
         function toggleAccountDropdown() {
-            document.getElementById('account-dropdown').classList.toggle('show');
-        }
+        document.getElementById('account-dropdown').classList.toggle('show');
+    
+    };
+    function toggleDropdown() {
+        document.getElementById('category-dropdown').classList.toggle('show');
+    };
 
-        function toggleDropdown() {
-            document.getElementById('category-dropdown').classList.toggle('show');
-        }
-    </script>
+</script>
+
 </body>
 </html>

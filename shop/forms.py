@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
-from .models import Comment, UserProfile, Cart
+from .models import Comment, UserProfile
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
@@ -97,21 +97,6 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         if new_password1 != new_password2:
             raise ValidationError("New passwords do not match.")
         return new_password2
-
-class CartUpdateForm(forms.ModelForm):
-    class Meta:
-        model = Cart
-        fields = ['quantity']
-        widgets = {
-            'quantity': forms.NumberInput(attrs={'min': 1, 'placeholder': 'Quantity'}),
-        }
-
-    def clean_quantity(self):
-        """Ensure the quantity is a positive integer."""
-        quantity = self.cleaned_data.get('quantity')
-        if quantity is None or quantity <= 0:
-            raise forms.ValidationError("Quantity must be a positive integer.")
-        return quantity
 
 # forms.py
 

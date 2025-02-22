@@ -1,68 +1,36 @@
 {% extends 'shop/base.html' %}
-{% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'staticfiles/admin/css/cart.css' %}">
-
-<div class="container cart-container">
-    <h1>Shopping Cart</h1>
-
-    {% if cart_items %}
-        <table class="cart-table">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in cart_items %}
-                    <tr>
-                        <td>
-                            <div class="product-info">
-                                <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" class="cart-product-image">
-                                <span>{{ item.product.name }}</span>
-                            </div>
-                        </td>
-                        <td>Kshs{{ item.product.price }}</td>
-                        <td>
-                            <form method="POST" action="{% url 'update_cart_item' item.id %}">
-                                {% csrf_token %}
-                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
-                                <button type="submit">Update</button>
-                            </form>
-                        </td>
-                        <td>Kshs{{ item.get_total }}</td>
-                        <td>
-                            <form method="POST" action="{% url 'remove_from_cart' item.id %}">
-                                {% csrf_token %}
-                                <button type="submit">Remove</button>
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="cart-summary">
-            <p>Total Items: {{ total_items }}</p>
-            <p>Total Price: Kshs{{ total_price }}</p>
-            <a href="{% url 'checkout' %}" class="checkout-button">Proceed to Checkout</a>
-        </div>
-    {% else %}
-        <p>Your cart is empty. <a href="{% url 'product_list' %}">Continue shopping</a>.</p>
-    {% endif %}
+<div class="cart-container" style="background-color: #121212; color: #FFD700; padding: 20px; border-radius: 10px; width: 80%; margin: 20px auto; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); font-family: Arial, sans-serif;">
+    <h1 style="text-align: center; font-size: 2rem; margin-bottom: 20px; color: #FFD700; text-shadow: 1px 1px 8px rgba(255, 215, 0, 0.6);">Your Shopping Cart</h1>
+    
+    <div class="cart-items">
+        {% for item in cart %}
+            <div class="cart-item" style="display: flex; align-items: center; background-color: #1a1a1a; margin-bottom: 20px; padding: 15px; border-radius: 8px; transition: transform 0.3s ease;">
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="width: 80px; height: 80px; border-radius: 8px; margin-right: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+                
+                <div style="flex: 1;">
+                    <h3 style="font-size: 1.2rem; margin: 0; color: #FFD700;">{{ item.product.name }}</h3>
+                    <p style="margin: 5px 0; color: #E5C100;">Price: Kshs{{ item.product.price }}</p>
+                    
+                    <form method="post" action="{% url 'update_cart_item' item.product.id %}" style="display: flex; align-items: center;">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" style="width: 60px; padding: 5px; margin-right: 10px; border: none; background-color: #333; color: #FFD700; border-radius: 4px; text-align: center;">
+                        <button type="submit" style="padding: 5px 10px; background-color: #FFD700; border: none; border-radius: 4px; cursor: pointer; color: #1a1a1a; font-weight: bold; transition: background 0.3s ease;">Update</button>
+                    </form>
+                    
+                    <a href="{% url 'remove_from_cart' item.product.id %}" class="remove-item" style="display: inline-block; margin-top: 10px; color: #FF6347; text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease;">Remove</a>
+                </div>
+            </div>
+        {% empty %}
+            <p style="text-align: center; color: #FFD700; font-size: 1.2rem;">Your cart is empty.</p>
+        {% endfor %}
+    </div>
+    
+    <div class="cart-summary" style="margin-top: 20px; text-align: right;">
+        <h2 style="font-size: 1.5rem; color: #FFD700; text-shadow: 1px 1px 8px rgba(255, 215, 0, 0.6);">Total: Kshs{{ total_price }}</h2>
+        <a href="{% url 'checkout' %}" class="btn-checkout" style="display: inline-block; padding: 10px 20px; background-color: #FFD700; color: #121212; font-size: 1.1rem; font-weight: bold; text-align: center; border-radius: 6px; text-decoration: none; margin-top: 15px; transition: background 0.3s ease; box-shadow: 0 4px 8px rgba(255, 215, 0, 0.4);">Proceed to Checkout</a>
+    </div>
 </div>
-
-<script src="{% static 'staticfiles/admin/js/cart.js' %}"></script>
-<script src="{% static 'staticfiles/admin/js/product_detail.js' %}"></script>
-<script src="{% static 'staticfiles/admin/js/main.js' %}"></script>
-<script src="{% static 'staticfiles/admin/js/form_handling.js' %}"></script>
-<script src="{% static 'staticfiles/admin/js/ui_enhancements.js' %}"></script>
-<script src="{% static 'staticfiles/admin/js/dropdowns.js' %}"></script>
-<script src="{% static 'staticfiles/admin/js/price_range.js' %}"></script>
 
 {% endblock %}

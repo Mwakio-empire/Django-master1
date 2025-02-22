@@ -1,0 +1,238 @@
+/* General body styling */
+body {
+    background-color: #121212;
+    color: #FFD700;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header styling */
+.header {
+    background-color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.header .logo img {
+    width: 60px;
+    height: auto;
+}
+
+.header .lavish-title h1 {
+    font-size: 1.8rem;
+    color: #FFD700;
+    text-shadow: 1px 1px 8px rgba(255, 215, 0, 0.7);
+    margin: 0;
+}
+
+/* Navigation menu styling */
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-menu .category-button,
+.nav-menu .cart-icon,
+.nav-menu .account-button {
+    color: #FFD700;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-menu .category-button:hover,
+.nav-menu .cart-icon:hover,
+.nav-menu .account-button:hover {
+    color: #E5C100;
+}
+
+.nav-menu .cart-icon i {
+    margin-right: 5px;
+}
+
+/* Dropdown menus styling */
+.dropdown {
+    display: none;
+    position: absolute;
+    background-color: #1a1a1a;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.dropdown.show {
+    display: block;
+}
+
+.dropdown a {
+    display: block;
+    color: #FFD700;
+    text-decoration: none;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.dropdown a:hover {
+    color: #E5C100;
+}
+
+/* Account dropdown menu */
+.account-menu .dropdown {
+    top: 30px;
+    right: 0;
+}
+
+/* Logout button styling */
+.account-menu button[type="submit"] {
+    background: none;
+    border: none;
+    color: #FFD700;
+    cursor: pointer;
+    padding: 5px 0;
+    font-size: 1rem;
+}
+
+/* Main content styling */
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* Success/error messages styling */
+.message {
+    background-color: #FFD700;
+    color: #121212;
+    padding: 15px;
+    margin: 20px auto;
+    max-width: 800px;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Footer styling */
+footer {
+    background-color: #1a1a1a;
+    color: #FFD700;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #333;
+}
+
+/* Buttons styling */
+button {
+    background-color: #FFD700;
+    color: #121212;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #E5C100;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .nav-menu {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* Footer styling */
+footer {
+    background-color: #1a1a1a;
+    color: #FFD700;
+    padding: 30px 20px;
+    text-align: center;
+    border-top: 1px solid #333;
+    font-size: 0.9rem;
+    position: relative;
+}
+
+footer .footer-content {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+footer .footer-content .footer-links {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+footer .footer-content .footer-links a {
+    color: #FFD700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 500;
+}
+
+footer .footer-content .footer-links a:hover {
+    color: #E5C100;
+}
+
+footer .footer-content .social-icons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+footer .footer-content .social-icons a {
+    color: #FFD700;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+footer .footer-content .social-icons a:hover {
+    color: #E5C100;
+}
+
+footer .footer-content p {
+    font-size: 0.85rem;
+    color: #bbbbbb;
+    margin-top: 10px;
+}
+
+footer .footer-content .footer-note {
+    font-size: 0.8rem;
+    color: #666666;
+    margin-top: 20px;
+    font-style: italic;
+}
+
+/* Responsive footer adjustments */
+@media (max-width: 768px) {
+    footer .footer-content {
+        padding: 10px;
+    }
+    footer .footer-content .footer-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    footer .footer-content .social-icons {
+        justify-content: center;
+    }
+}

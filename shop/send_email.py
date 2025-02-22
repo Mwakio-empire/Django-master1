@@ -12,7 +12,7 @@ django.setup()
 send_mail(
     'Test Email',
     'This is a test email.',
-    'from@example.com',
+    'mikemwazo444@.com',
     ['to@example.com'],
     fail_silently=False,
 )

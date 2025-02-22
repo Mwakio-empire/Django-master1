@@ -1,0 +1,23 @@
+{% extends "shop/base.html" %}
+{%load static%}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'staticfiles/admin/css/cart&checkout.css'%}">
+<div class="checkout-container">
+    <h1>Checkout</h1>
+    <div class="checkout-summary">
+        <h2>Order Summary</h2>
+        <ul>
+            {% for item in cart %}
+                <li>
+                    {{ item.product.name }} - ${{ item.total_price }} (Quantity: {{ item.quantity }})
+                </li>
+            {% endfor %}
+        </ul>
+        <h2>Total Price: Kshs{{ total_price }}</h2>
+    </div>
+    <form method="post" action="{% url 'order_detail' order_id=order.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn-complete-order">Complete Order</button>
+    </form>
+</div>
+{% endblock %}

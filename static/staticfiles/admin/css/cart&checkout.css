@@ -1,0 +1,22 @@
+.cart-container, .checkout-container {
+    background-color: #1c1c1c;
+    color: #ffd700;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.cart-item, .checkout-summary {
+    background-color: #333;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.btn-checkout, .btn-complete-order {
+    background-color: #ffd700;
+    color: #1c1c1c;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+}

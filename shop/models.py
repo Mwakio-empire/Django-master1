@@ -64,16 +64,6 @@ class Recommendation(models.Model):
     def __str__(self):
         return f"Recommendation of {self.product.name} by {self.user.username} with score {self.score}"
 
-class Cart(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
-
-    def __str__(self):
-        return f"Cart of {self.user.username} with {self.product.name} ({self.quantity})"
-
-    def get_total_price(self):
-        return self.product.price * self.quantity
 
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -159,3 +149,6 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.product.name} x {self.quantity}"
+
+
+
